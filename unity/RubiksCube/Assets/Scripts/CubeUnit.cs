@@ -8,19 +8,23 @@ using UnityEngine;
 public class CubeUnit : MonoBehaviour
 {
     public Vector3Int indexVec;
-    public int order;
+    private int order;
+    private int scale = 10;
 
     [SerializeField]
-    public int scale = 1;
-
-    [SerializeField]
-    private Color colorOrange = new Color(1f, 0.5f, 0.5f);
+    private Color colorOrange = new Color(1f, 0.5f, 0f);
     private Color colorTransparent = new Color(0, 0, 0, 0);
 
-    // Start is called before the first frame update
-    void Start()
+    public void InitComponent(Vector3Int indexVec, int order)
     {
+        this.indexVec = indexVec;
+        this.order = order;
         gameObject.transform.position = scale * new Vector3(indexVec.x, indexVec.y, indexVec.z);
+        initColors();
+    }
+
+    private void initColors()
+    {
 
         var front = gameObject.transform.Find("Front").gameObject;
         var back = gameObject.transform.Find("Back").gameObject;
@@ -29,18 +33,22 @@ public class CubeUnit : MonoBehaviour
             // front
             front.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.red);
             back.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            back.GetComponentInChildren<TextMesh>().text = "";
         }
         else if (indexVec.x == 0)
         {
             // back
             front.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            front.GetComponentInChildren<TextMesh>().text = "";
             back.GetComponent<MeshRenderer>().material.SetColor("_Color", colorOrange);
         }
         else
         {
             // other
             front.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            front.GetComponentInChildren<TextMesh>().text = "";
             back.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            back.GetComponentInChildren<TextMesh>().text = "";
         }
 
         var top = gameObject.transform.Find("Top").gameObject;
@@ -50,18 +58,22 @@ public class CubeUnit : MonoBehaviour
             // top
             top.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.white);
             bottom.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            bottom.GetComponentInChildren<TextMesh>().text = "";
         }
         else if (indexVec.y == 0)
         {
             // bottom
             top.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            top.GetComponentInChildren<TextMesh>().text = "";
             bottom.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.yellow);
         }
         else
         {
             // other
             top.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            top.GetComponentInChildren<TextMesh>().text = "";
             bottom.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            bottom.GetComponentInChildren<TextMesh>().text = "";
         }
 
         var left = gameObject.transform.Find("Left").gameObject;
@@ -70,6 +82,7 @@ public class CubeUnit : MonoBehaviour
         {
             // right
             left.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            left.GetComponentInChildren<TextMesh>().text = "";
             right.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
         }
         else if (indexVec.z == 0)
@@ -77,18 +90,20 @@ public class CubeUnit : MonoBehaviour
             // left
             left.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.green);
             right.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            right.GetComponentInChildren<TextMesh>().text = "";
         }
         else
         {
             // other
             left.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            left.GetComponentInChildren<TextMesh>().text = "";
             right.GetComponent<MeshRenderer>().material.SetColor("_Color", colorTransparent);
+            right.GetComponentInChildren<TextMesh>().text = "";
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        foreach (var text in GetComponentsInChildren<TextMesh>())
+        {
+            text.text = "";
+        }
     }
 }
